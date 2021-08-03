@@ -1,0 +1,70 @@
+
+
+.container{
+    border:2px solid  #61dafb;
+    width: 200px;
+    height: 150px;
+    background-color: #282c34;
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-columns: 170px;
+    grid-template-rows: 70px 40px;
+    grid-template-areas:
+    "h"
+    "g";
+    grid-gap: 10px;
+    align-content: center;
+    justify-content:center;
+    box-shadow: 2px 2px 1px black;
+
+
+}
+.okno {
+
+    grid-area: h;
+    align-content: center;
+    justify-content: center;
+
+    display: grid;
+    border-radius: 5px;
+    background-color: #61dafb;
+
+
+
+
+    font-weight: bold;
+    font-size: 40px;
+    box-shadow: 2px 2px 1px black;
+
+}
+
+.buttonBlock{
+    grid-area: g;
+    border-radius:10px;
+    border:2px solid  #61dafb;
+
+    display: grid;
+    grid-template-columns: 40% 40%;
+    grid-template-rows: 70%;
+    align-content: center;
+    justify-content:space-evenly;
+    box-shadow: 2px 2px 1px black;
+
+
+}
+
+.button{
+    background-color: #61dafb;
+    border-color: aqua;
+    border-radius: 8px;
+    color: #282c34;
+    font-weight: bolder;
+    box-shadow: 2px 2px 1px black;
+
+}
+
+
+.disabl{
+    background-color: darkslategray;
+}
