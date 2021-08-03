@@ -1,27 +1,27 @@
 import React, {useState} from "react";
 import {Button} from "./Button";
-import { StateType} from "./State";
 import style from "./Counter.module.css"
 
 
+export const Counter = () => {
 
+    const [count, setCount] = useState(0)
 
-
-
-export const Counter = (props:StateType) => {
-    const {startPos,nameButtonIncr,nameButtonReset}=props.state
-    let [count, setCount] = useState(startPos)
-    const increment = () => {if(count<5) setCount(count+1)}
+    const increment = () => {
+        if (count < 5) setCount(count + 1)
+    }
     const reset = () => setCount(0)
 
-        return (
-            <div className={style.container}>
-                <div className={`disp ${style.okno} ${count === 5 ? "stop" : ""}`}>{count}</div>
-                <div className={style.buttonBlock}>
-                    <Button nameButton={nameButtonIncr} onClickCount={increment} setDisable={count}/>
-                    <Button nameButton={nameButtonReset} onClickCount={reset}/>
-                </div>
+    const countLimitStyle = count === 5 && style.limitCount
+    return (
+        <div className={style.container}>
+            <div className={`${style.screen} ${countLimitStyle}`}>{count}</div>
+            <div className={style.buttonBlock}>
+                <Button title={"incr"} onClick={increment} disable={Boolean(countLimitStyle)}/>
+                <Button title={"reset"} onClick={reset}/>
             </div>
-        )
-    }
+        </div>
+    )
+
+}
 

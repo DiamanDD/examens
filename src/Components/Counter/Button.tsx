@@ -1,17 +1,22 @@
 import React from "react";
 import Style from "./Counter.module.css"
+
 type ButtonPropsType = {
-    nameButton: string
-    onClickCount: () => void
-    setDisable?: number
+    title: string
+    onClick: () => void
+    disable?: boolean
 }
 
 
 export const Button = (props: ButtonPropsType) => {
-    const {onClickCount,nameButton,setDisable}=props
+    const {onClick, title, disable} = props
     return (
 
-        <button className={`${Style.button} + ${setDisable===5?Style.disabl:""}`} onClick={onClickCount} disabled={setDisable === 5 && true}>{nameButton}</button>
+        <button
+            className={`${Style.button}  ${disable && Style.disabled}`}
+            onClick={onClick}
+            disabled={disable}>{title}
+        </button>
 
     )
 
