@@ -1,24 +1,34 @@
-import React, {useState} from "react";
+import React from "react";
 import {Button} from "./Button";
 import style from "./Counter.module.css"
 
+type CounterType = {
+    count: number
+    resetCounter: () => void
+    increment: () => void
+    maxValue: number
+    startValue: number
+    message: string
 
-export const Counter = () => {
+}
 
-    const [count, setCount] = useState(0)
+export const Counter = (props: CounterType) => {
+    let {count, increment, resetCounter, maxValue, message} = props
 
-    const increment = () => {
-        if (count < 5) setCount(count + 1)
-    }
-    const reset = () => setCount(0)
 
-    const countLimitStyle = count === 5 && style.limitCount
+    const countLimitStyle = count === maxValue && style.limitCount
+    const disabledbuttonHandler = message
     return (
         <div className={style.container}>
-            <div className={`${style.screen} ${countLimitStyle}`}>{count}</div>
+            {
+                message ? <div className={`${style.message}`}>{message}</div> :
+                    <div className={`${style.screen} ${countLimitStyle}`}>{count}</div>
+            }
+
             <div className={style.buttonBlock}>
-                <Button title={"incr"} onClick={increment} disable={Boolean(countLimitStyle)}/>
-                <Button title={"reset"} onClick={reset}/>
+                <Button title={"incr"} onClick={increment}
+                        disable={Boolean(countLimitStyle) || Boolean(disabledbuttonHandler)}/>
+                <Button title={"reset"} onClick={resetCounter} disable={Boolean(disabledbuttonHandler)}/>
             </div>
         </div>
     )
