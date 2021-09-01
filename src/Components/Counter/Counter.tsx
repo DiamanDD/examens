@@ -7,28 +7,24 @@ type CounterType = {
     resetCounter: () => void
     increment: () => void
     maxValue: number
-    startValue: number
-    message: string
-
+    error: string
 }
 
 export const Counter = (props: CounterType) => {
-    let {count, increment, resetCounter, maxValue, message} = props
-
-
-    const countLimitStyle = count === maxValue && style.limitCount
-    const disabledbuttonHandler = message
+    let {resetCounter, count, increment, maxValue, error} = props
+    const countLimitStyle = count === maxValue
+    const disabledbuttonHandler = error
     return (
         <div className={style.container}>
             {
-                message ? <div className={`${style.message}`}>{message}</div> :
-                    <div className={`${style.screen} ${countLimitStyle}`}>{count}</div>
+                props.error ? <div className={`${style.message}`}>{error}</div> :
+                    <div className={`${style.screen}  ${count === maxValue ? style.limitCount : ""} `}>{count}</div>
             }
 
             <div className={style.buttonBlock}>
                 <Button title={"incr"} onClick={increment}
                         disable={Boolean(countLimitStyle) || Boolean(disabledbuttonHandler)}/>
-                <Button title={"reset"} onClick={resetCounter} disable={Boolean(disabledbuttonHandler)}/>
+                <Button onClick={resetCounter} title={"reset"} disable={Boolean(disabledbuttonHandler)}/>
             </div>
         </div>
     )

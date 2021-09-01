@@ -1,65 +1,56 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React from "react";
 import "./App.css";
 import {Counter} from "./Components/Counter/Counter";
-import {SettingValue, setValueType} from "./Components/SettingsValue/SettingsValue";
+import {SettingValue} from "./Components/SettingsValue/SettingsValue";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./bll/store";
+import {incValueAC, ResetValueAC, settingsValuesAC} from "./bll/counter-reduser";
+
 
 function App() {
-    const [maxValue, setmaxValue] = useState(5)
-    const [startValue, setstartValue] = useState(0)
-    const [count, setCount] = useState(0)
+    const count = useSelector<AppStateType, number>(state => state.counter.startValue)
+    const maxValue = useSelector<AppStateType, number>(state => state.counter.maxValue)
+    const tempmStartValue = useSelector<AppStateType, number>(state => state.counter.configStartValue)
+    const tempmaxValue = useSelector<AppStateType, number>(state => state.counter.configMaxValue)
+    const dispatch = useDispatch()
 
-    useEffect(() => {
-        let value = localStorage.getItem("start")
-        if (value) {
-            let newvalue = JSON.parse(value)
-            setstartValue(newvalue)
-            setCount(newvalue)
-        }
-    }, [])
-
-    useEffect(() => {
-        let value = localStorage.getItem("max")
-        if (value) {
-            let newvalue = JSON.parse(value)
-            setmaxValue(newvalue)
-
-        }
-    }, [])
-
-    useEffect(() => {
-        localStorage.setItem("start", JSON.stringify(startValue))
-    }, [startValue])
-
-    useEffect(() => {
-        localStorage.setItem("max", JSON.stringify(maxValue))
-    }, [maxValue])
+    // useEffect(() => {
+    //     let value = localStorage.getIte ("start")
+    //     if (value) {
+    //         let newvalue = JSON.parse(value)
+    //         setstartValue(newvalue)
+    //         setCount(newvalue)
+    //     }
+    // }, [])
+    //
+    // useEffect(() => {
+    //     let value = localStorage.getItem("max")
+    //     if (value) {
+    //         let newvalue = JSON.parse(value)
+    //         setmaxValue(newvalue)
+    //
+    //     }
+    // }, [])
+    //
+    // useEffect(() => {
+    //     localStorage.setItem("start", JSON.stringify(startValue))
+    // }, [startValue])
+    //
+    // useEffect(() => {
+    //     localStorage.setItem("max", JSON.stringify(maxValue))
+    // }, [maxValue])
+    //
+    //
 
     const increment = () => {
-        if (count < maxValue) setCount(count + 1)
+        if (count < maxValue) {
+            dispatch(incValueAC())
+        }
     }
-    const resetCounter = () => setCount(startValue)
-
-    let [message, setMessage] = useState("")
-
-    let setMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setmaxValue(JSON.parse(e.currentTarget.value))
-        setMessage("Установка значения")
-
-
+    const resetCounter = () => dispatch(ResetValueAC())
+    let setSettings = () => {
+        dispatch(settingsValuesAC())
     }
-    let setStartValue = (e: ChangeEvent<HTMLInputElement>) => {
-        setstartValue(JSON.parse(e.currentTarget.value))
-        setMessage("Установка значения")
-
-    }
-
-    const applicationSettings = (props: setValueType) => {
-        setmaxValue(props.maxValue)
-        setCount(props.startValue)
-        setMessage("")
-    }
-
-
     return (
         <div>
             <Counter
@@ -67,15 +58,11 @@ function App() {
                 resetCounter={resetCounter}
                 increment={increment}
                 maxValue={maxValue}
-                startValue={startValue}
-                message={message}/>
+                error={tempmStartValue >= tempmaxValue ? "error" : ""}
+            />
             <SettingValue
-                maxValue={maxValue}
-                startValue={startValue}
-                setMaxValue={setMaxValue}
-                setStartValue={setStartValue}
-                applicationSettings={applicationSettings}
-                setMessage={setMessage}
+                error={tempmStartValue > tempmaxValue ? "error" : ""}
+                setSettings={setSettings}
             />
 
         </div>
