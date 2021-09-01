@@ -7,15 +7,12 @@ type ButtonPropsType = {
     disable?: boolean
 }
 
-
 export const Button = (props: ButtonPropsType) => {
-    const {onClick, title, disable} = props
+    const {title, disable} = props
     return (
-
-        <button
-            className={`${Style.button}  ${disable && Style.disabled}`}
-            onClick={onClick}
-            disabled={disable}>{title}
+        <button onClick={props.onClick}
+                className={`${Style.button}  ${disable && Style.disabled}`}
+                disabled={disable}>{title}
         </button>
 
     )

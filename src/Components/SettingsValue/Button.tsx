@@ -6,12 +6,9 @@ type ButtonPropsType = {
     onClick: () => void
     disable?: boolean
 }
-
-
 export const Button = (props: ButtonPropsType) => {
     const {onClick, title, disable} = props
     return (
-
         <button
             className={`${Style.button}  ${disable && Style.disabled}`}
             onClick={onClick}
