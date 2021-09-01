@@ -33,14 +33,16 @@ export const ResetValueAC = () => ({
     type: "RESET_VALUE",
 
 } as const)
-export const settingsValuesAC = () => ({
+export const settingsValuesAC = (startValue:number,maxValue:number) => ({
     type: "SETTINGS_VALUES",
+    startValue,
+    maxValue
 
 
 } as const)
 export const setTempStartValueAC = (startValue: number) => ({
     type: "SETTINGS_TEMP_START_VALUES",
-    startValue: startValue,
+    startValue,
 
 
 } as const)
@@ -59,14 +61,16 @@ export const counterReducer = (state: initialStataAT = initialState, action: Act
         case "SET_VALUE_FROM_LOCAL_STORAGE":
             return {...state, startValue: action.startValue}
         case "RESET_VALUE":
+
             return {...state, startValue: initialState.configStartValue}
         case "SETTINGS_VALUES":
-            return {...state, startValue: initialState.configStartValue, maxValue: initialState.configMaxValue}
+
+            return {...state, startValue: action.startValue, maxValue: action.maxValue}
         case "SETTINGS_TEMP_START_VALUES":
-            initialState.configStartValue = action.startValue
+
             return {...state, configStartValue: action.startValue}
         case "SETTINGS_TEMP_MAX_VALUES":
-            initialState.configMaxValue = action.maxValue
+
             return {...state, configMaxValue: action.maxValue}
         default:
             return state

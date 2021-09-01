@@ -4,14 +4,19 @@ import {Counter} from "./Components/Counter/Counter";
 import {SettingValue} from "./Components/SettingsValue/SettingsValue";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "./bll/store";
-import {incValueAC, ResetValueAC, settingsValuesAC} from "./bll/counter-reduser";
+import {incValueAC, ResetValueAC, settingsValuesAC} from "./bll/counter-reducer";
 
+
+export const getStartValue=(state:AppStateType)=>state.counter.startValue
+export const getMaxValue=(state:AppStateType)=>state.counter.maxValue
+export const getTempStartValue=(state:AppStateType)=>state.counter.configStartValue
+export const getTempMaxValue=(state:AppStateType)=>state.counter.configMaxValue
 
 function App() {
-    const count = useSelector<AppStateType, number>(state => state.counter.startValue)
-    const maxValue = useSelector<AppStateType, number>(state => state.counter.maxValue)
-    const tempmStartValue = useSelector<AppStateType, number>(state => state.counter.configStartValue)
-    const tempmaxValue = useSelector<AppStateType, number>(state => state.counter.configMaxValue)
+    const startValue = useSelector(getStartValue)
+    const maxValue = useSelector(getMaxValue)
+    const tempStartValue = useSelector(getTempStartValue)
+    const tempMaxValue = useSelector(getTempMaxValue)
     const dispatch = useDispatch()
 
     // useEffect(() => {
@@ -43,25 +48,25 @@ function App() {
     //
 
     const increment = () => {
-        if (count < maxValue) {
+        if (startValue < maxValue) {
             dispatch(incValueAC())
         }
     }
     const resetCounter = () => dispatch(ResetValueAC())
     let setSettings = () => {
-        dispatch(settingsValuesAC())
+        dispatch(settingsValuesAC(tempStartValue,tempMaxValue))
     }
     return (
         <div>
             <Counter
-                count={count}
+                count={startValue}
                 resetCounter={resetCounter}
                 increment={increment}
                 maxValue={maxValue}
-                error={tempmStartValue >= tempmaxValue ? "error" : ""}
+                error={tempStartValue >= tempMaxValue ? "error" : ""}
             />
             <SettingValue
-                error={tempmStartValue > tempmaxValue ? "error" : ""}
+                error={tempStartValue >= tempMaxValue ? "error" : ""}
                 setSettings={setSettings}
             />
 

@@ -1,5 +1,5 @@
 import React from "react";
-import Style from "./Counter.module.css"
+import Style from "../Counter/Counter.module.css"
 
 type ButtonPropsType = {
     title: string
@@ -10,9 +10,12 @@ type ButtonPropsType = {
 export const Button = (props: ButtonPropsType) => {
     const {title, disable} = props
     return (
-        <button onClick={props.onClick}
-                className={`${Style.button}  ${disable && Style.disabled}`}
-                disabled={disable}>{title}
+        <button
+            onClick={props.onClick}
+            className={`${Style.button} 
+                 ${disable && Style.disabled}`}
+            disabled={disable}>
+            {title}
         </button>
 
     )
